@@ -1,0 +1,31 @@
+[project]
+name = "marketscreener"
+version = "0.1.0"
+description = "Local stock analysis agent daemon."
+requires-python = ">=3.11"
+dependencies = [
+  "beautifulsoup4>=4.12.3",
+  "requests>=2.32.3",
+  "yfinance>=0.2.43",
+  "tradingview-ta>=3.3.0",
+  "openai>=1.54.3",
+  "schedule>=1.2.1",
+  "python-dotenv>=1.0.1",
+  "rich>=13.9.1",
+  "aiohttp>=3.10.5",
+  "tenacity>=9.0.0",
+]
+
+[project.scripts]
+stock-agent = "main:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = []
+
+[tool.uv]
+default-groups = ["dev"]
+
