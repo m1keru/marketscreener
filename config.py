@@ -29,7 +29,7 @@ DEBUG_MODE = os.getenv("DEBUG_MODE", "0").lower() in {"1", "true", "yes", "on"}
 
 @dataclass(slots=True)
 class Settings:
-    openai_api_key: str
+    gemini_api_key: str
     telegram_bot_token: Optional[str]
     chat_id: Optional[str]
 
@@ -43,12 +43,12 @@ def get_settings() -> Settings:
     """
     global _settings
     if _settings is None:
-        openai_api_key = os.getenv("OPENAI_API_KEY")
-        if not openai_api_key:
-            raise RuntimeError("OPENAI_API_KEY is required but missing.")
+        gemini_api_key = os.getenv("GEMINI_API_KEY")
+        if not gemini_api_key:
+            raise RuntimeError("GEMINI_API_KEY is required but missing.")
 
         _settings = Settings(
-            openai_api_key=openai_api_key,
+            gemini_api_key=gemini_api_key,
             telegram_bot_token=os.getenv("TELEGRAM_BOT_TOKEN"),
             chat_id=os.getenv("CHAT_ID"),
         )

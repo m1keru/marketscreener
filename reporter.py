@@ -4,23 +4,23 @@ import json
 from datetime import datetime, timezone
 from typing import Any, Dict, List
 
+import google.generativeai as genai
 import yfinance as yf
-from openai import OpenAI
 from rich.console import Console
 
 from config import get_settings
 
 
 console = Console()
-_client: OpenAI | None = None
+_configured: bool = False
 
 
-def _get_client() -> OpenAI:
-    global _client
-    if _client is None:
+def _configure_gemini() -> None:
+    global _configured
+    if not _configured:
         settings = get_settings()
-        _client = OpenAI(api_key=settings.openai_api_key)
-    return _client
+        genai.configure(api_key=settings.gemini_api_key)
+        _configured = True
 
 
 def fetch_market_context() -> Dict[str, Any]:
@@ -44,7 +44,7 @@ def _build_prompt(
     market_context: Dict[str, Any],
     new_symbols: List[str],
     dropped_symbols: List[str],
-) -> List[Dict[str, str]]:
+) -> str:
     payload = {
         "market_context": market_context,
         "screened_stocks": stocks,
@@ -52,7 +52,8 @@ def _build_prompt(
         "dropped_symbols": dropped_symbols,
     }
 
-    user_prompt = f"""
+    prompt = f"""Ты строгий финансовый аналитик, придерживаешься регламентов compliance и объясняешь выводы без эмоций.
+
 Ты опытный инвестиционный аналитик. Используй предоставленные данные (JSON ниже), чтобы подготовить структурированный отчёт на русском языке.
 
 Требования к ответу (Markdown):
@@ -65,13 +66,25 @@ def _build_prompt(
 Данные:
 {json.dumps(payload, ensure_ascii=False, indent=2)}
 """
-    return [
-        {
-            "role": "system",
-            "content": "Ты строгий финансовый аналитик, придерживаешься регламентов compliance и объясняешь выводы без эмоций.",
-        },
-        {"role": "user", "content": user_prompt},
-    ]
+    return prompt
+
+
+def _find_available_model() -> str:
+    """Find an available Gemini model."""
+    _configure_gemini()
+    try:
+        models = genai.list_models()
+        available = [m.name for m in models if "generateContent" in m.supported_generation_methods]
+        if available:
+            # Extract model name without 'models/' prefix if present
+            model_name = available[0].replace("models/", "")
+            console.log(f"[blue]Found available model: {model_name}")
+            return model_name
+    except Exception as e:
+        console.log(f"[yellow]Could not list models: {e}")
+    
+    # Fallback to common model names
+    return "gemini-pro"
 
 
 def generate_report(
@@ -79,22 +92,41 @@ def generate_report(
     market_context: Dict[str, Any],
     new_symbols: List[str],
     dropped_symbols: List[str],
-    model: str = "gpt-4o-mini",
+    model: str | None = None,
 ) -> str:
-    client = _get_client()
-    messages = _build_prompt(stocks, market_context, new_symbols, dropped_symbols)
-    console.log("[green]Requesting report from OpenAI...")
-    response = client.responses.create(
-        model=model,
-        input=messages,
-        temperature=0.2,
-    )
-
-    for item in response.output or []:
-        for chunk in item.content:
-            if chunk.type == "output_text":
-                return chunk.text
-
-    raise RuntimeError("OpenAI response did not contain text output.")
+    _configure_gemini()
+    prompt = _build_prompt(stocks, market_context, new_symbols, dropped_symbols)
+    
+    # Use provided model or find an available one
+    if model is None:
+        model = _find_available_model()
+    
+    console.log(f"[green]Requesting report from Gemini ({model})...")
+    
+    # Try different model name formats
+    model_variants = [model, f"models/{model}"]
+    if model.startswith("models/"):
+        model_variants = [model, model.replace("models/", "")]
+    
+    last_error = None
+    for model_name in model_variants:
+        try:
+            genai_model = genai.GenerativeModel(model_name=model_name)
+            generation_config = genai.types.GenerationConfig(
+                temperature=0.2,
+            )
+            response = genai_model.generate_content(
+                prompt,
+                generation_config=generation_config,
+            )
+            
+            if response.text:
+                return response.text
+            raise RuntimeError("Gemini response did not contain text output.")
+        except Exception as e:
+            last_error = e
+            continue
+    
+    raise RuntimeError(f"Failed to generate report with Gemini. Tried models: {model_variants}. Last error: {last_error}") from last_error
 
 

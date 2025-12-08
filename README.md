@@ -2,7 +2,9 @@
 
 ## Setup
 
-1. Create a `.env` file with the required keys (`OPENAI_API_KEY`, optional Telegram settings).
+1. Create a `.env` file with the required keys (`GEMINI_API_KEY`, optional Telegram settings).
+   - Get your Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+   - If you have Google One/Google AI Pro subscription, you can use Gemini 3 Pro model
 2. Sync dependencies locally:
    ```shell
    uv sync
@@ -21,4 +23,3 @@ docker compose up --build -d
 ```
 
 The container mounts `history.json` and `reports/` from the host so daily state persists.
-
