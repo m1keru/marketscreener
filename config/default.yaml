@@ -1,0 +1,78 @@
+# marketscreener v2 — thresholds. Every value here is read at start-up;
+# changing one never requires a rebuild.
+
+# SEC rejects requests without a real contact in the User-Agent header (403).
+# Override without editing this file: export MSC_CONTACT=you@example.com
+user_agent_contact: ""
+
+# Language of the human-readable output: criterion names, thresholds, reasons
+# and the markdown report. JSON field names, criterion ids, statuses and XBRL
+# tags are identifiers and stay as they are. Override per run with --lang.
+language: ru
+
+profile: graham_defensive
+max_results: 25
+
+# Empty -> $XDG_DATA_HOME/marketscreener/msc.db
+db_path: ""
+
+thresholds:
+  # 1. size
+  min_market_cap_usd: 300000000
+  # 2. current ratio (non-financial, non-utility)
+  current_ratio_min: 2.0
+  # 2b. utilities branch: long-term debt / equity
+  utility_debt_to_equity_max: 2.0
+  # 3. years of positive EPS required out of history_years
+  eps_positive_years: 10
+  # 4. years with a dividend required out of history_years
+  dividend_years: 10
+  # 5. EPS growth, avg(last 3y) vs avg(3y ending 7 years back)
+  eps_growth_min_pct: 33
+  # 6. price / avg EPS of the last 3 years
+  pe_max: 15
+  # 7. price to book, or the Graham product P/E * P/B
+  pb_max: 1.5
+  graham_product_max: 22.5
+  # length of the fundamental history pulled from EDGAR
+  history_years: 10
+
+universe:
+  # SIC 6000-6799 (banks, insurers, REITs): their balance sheets have no
+  # current/non-current split, so criteria 2 and 2b cannot be evaluated.
+  # Setting this to true lets them in with those criteria reported as unknown.
+  include_financials: false
+
+http:
+  # SEC's hard cap is 10 requests per second across the whole process.
+  requests_per_second: 10
+  max_retries: 5
+  timeout_seconds: 60
+
+cache:
+  facts_ttl_hours: 24
+  prices_ttl_hours: 1
+  # Registrant identity and SIC cost one request each and change at most once in
+  # a company's life; keeping them for a month is what makes later runs cheap.
+  companies_ttl_hours: 720
+
+prices:
+  # Quote sources, tried in order. EDGAR carries no prices, so market cap, P/E
+  # and P/B all depend on these; a ticker no source answers for is reported as
+  # unknown rather than dropped.
+  #
+  #   yahoo — batches 20 tickers per request (spark endpoint), falls back to the
+  #           chart endpoint per ticker. No key, no crumb.
+  #   cboe  — the exchange's own delayed-quote CDN, one request per ticker.
+  #           Keyless backstop for what yahoo does not answer.
+  #   stooq — the CSV list endpoint from the original design. As of 2026-09 it
+  #           returns 404 for every symbol and the daily CSV sits behind a
+  #           JavaScript challenge, so it is off by default. Add it back if it
+  #           works from your network; it is the only 50-per-request source.
+  sources: ["yahoo", "cboe"]
+  yahoo_base: "https://query1.finance.yahoo.com/v8/finance/chart/"
+  spark_base: "https://query1.finance.yahoo.com/v7/finance/spark"
+  stooq_base: "https://stooq.com/q/l/"
+  cboe_base: "https://cdn.cboe.com/api/global/delayed_quotes/quotes/"
+  concurrency: 4
+  requests_per_second: 8

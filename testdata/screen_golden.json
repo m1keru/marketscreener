@@ -1,0 +1,338 @@
+{
+  "run_id": "RUN_ID",
+  "as_of": "AS_OF",
+  "profile": "graham_defensive",
+  "universe_size": 6,
+  "evaluated": 6,
+  "passed": 3,
+  "candidates": [
+    {
+      "ticker": "FBK",
+      "cik": "0000000104",
+      "name": "FALLBACKCO INC",
+      "sic": 3559,
+      "sector": "Special Industry Machinery",
+      "price": 40,
+      "price_as_of": "2025-09-15",
+      "price_source": "stooq",
+      "market_cap": 4000000000,
+      "pe_3y_avg": 11.764705882352942,
+      "pb": 0.8,
+      "graham_number": 61.84658438426491,
+      "margin_of_safety": 0.5461646096066226,
+      "current_ratio": 3,
+      "ltd_to_working_capital": 0.75,
+      "ltd_to_equity": 0.3,
+      "eps_positive_years": 10,
+      "dividend_years": 10,
+      "eps_growth_10y_pct": 61.904761904761884,
+      "criteria": [
+        {
+          "id": "graham.1.size",
+          "status": "pass",
+          "value": 4000000000,
+          "target": "\u003e= $300M market cap",
+          "tag": "CommonStockSharesOutstanding",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.2.current_ratio",
+          "status": "pass",
+          "value": 3,
+          "target": "\u003e= 2.0",
+          "tag": "AssetsCurrent",
+          "accn": [
+            "0000000000-2024-000001",
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.2b.debt",
+          "status": "pass",
+          "value": 0.75,
+          "target": "long-term debt \u003c= working capital",
+          "tag": "LongTermDebt",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.3.earnings_stability",
+          "status": "pass",
+          "value": 10,
+          "target": "EPS \u003e 0 in each of 10 years (10 of 10)",
+          "tag": "EarningsPerShareDiluted",
+          "accn": [
+            "0000000000-2015-000001",
+            "0000000000-2016-000001",
+            "0000000000-2017-000001",
+            "0000000000-2018-000001",
+            "0000000000-2019-000001",
+            "0000000000-2020-000001",
+            "0000000000-2021-000001",
+            "0000000000-2022-000001",
+            "0000000000-2023-000001",
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.4.dividends",
+          "status": "pass",
+          "value": 10,
+          "target": "a dividend in each of 10 years (10 of 10)",
+          "tag": "CommonStockDividendsPerShareCashPaid"
+        },
+        {
+          "id": "graham.5.eps_growth",
+          "status": "pass",
+          "value": 61.904761904761884,
+          "target": "\u003e= +33% over 10 years (3-year averages)",
+          "tag": "EarningsPerShareDiluted"
+        },
+        {
+          "id": "graham.6.pe",
+          "status": "pass",
+          "value": 11.764705882352942,
+          "target": "price / avg EPS of 3 years \u003c= 15.0",
+          "tag": "EarningsPerShareDiluted"
+        },
+        {
+          "id": "graham.7.price_to_book",
+          "status": "pass",
+          "value": 0.8,
+          "target": "P/B \u003c= 1.5 or P/E * P/B \u003c= 22.5",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        }
+      ]
+    },
+    {
+      "ticker": "GOOD",
+      "cik": "0000000101",
+      "name": "GOODCO INC",
+      "sic": 3559,
+      "sector": "Special Industry Machinery",
+      "price": 40,
+      "price_as_of": "2025-09-15",
+      "price_source": "stooq",
+      "market_cap": 4000000000,
+      "pe_3y_avg": 11.764705882352942,
+      "pb": 0.8,
+      "graham_number": 61.84658438426491,
+      "margin_of_safety": 0.5461646096066226,
+      "current_ratio": 3,
+      "ltd_to_working_capital": 0.75,
+      "ltd_to_equity": 0.3,
+      "eps_positive_years": 10,
+      "dividend_years": 10,
+      "eps_growth_10y_pct": 61.904761904761884,
+      "criteria": [
+        {
+          "id": "graham.1.size",
+          "status": "pass",
+          "value": 4000000000,
+          "target": "\u003e= $300M market cap",
+          "tag": "dei:EntityCommonStockSharesOutstanding",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.2.current_ratio",
+          "status": "pass",
+          "value": 3,
+          "target": "\u003e= 2.0",
+          "tag": "AssetsCurrent",
+          "accn": [
+            "0000000000-2024-000001",
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.2b.debt",
+          "status": "pass",
+          "value": 0.75,
+          "target": "long-term debt \u003c= working capital",
+          "tag": "LongTermDebtNoncurrent",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.3.earnings_stability",
+          "status": "pass",
+          "value": 10,
+          "target": "EPS \u003e 0 in each of 10 years (10 of 10)",
+          "tag": "EarningsPerShareBasic",
+          "accn": [
+            "0000000000-2015-000001",
+            "0000000000-2016-000001",
+            "0000000000-2017-000001",
+            "0000000000-2018-000001",
+            "0000000000-2019-000001",
+            "0000000000-2020-000001",
+            "0000000000-2021-000001",
+            "0000000000-2022-000001",
+            "0000000000-2023-000001",
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.4.dividends",
+          "status": "pass",
+          "value": 10,
+          "target": "a dividend in each of 10 years (10 of 10)",
+          "tag": "CommonStockDividendsPerShareDeclared"
+        },
+        {
+          "id": "graham.5.eps_growth",
+          "status": "pass",
+          "value": 61.904761904761884,
+          "target": "\u003e= +33% over 10 years (3-year averages)",
+          "tag": "EarningsPerShareBasic"
+        },
+        {
+          "id": "graham.6.pe",
+          "status": "pass",
+          "value": 11.764705882352942,
+          "target": "price / avg EPS of 3 years \u003c= 15.0",
+          "tag": "EarningsPerShareBasic"
+        },
+        {
+          "id": "graham.7.price_to_book",
+          "status": "pass",
+          "value": 0.8,
+          "target": "P/B \u003c= 1.5 or P/E * P/B \u003c= 22.5",
+          "tag": "StockholdersEquity",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        }
+      ]
+    },
+    {
+      "ticker": "JUN",
+      "cik": "0000000105",
+      "name": "JUNECO INC",
+      "sic": 3559,
+      "sector": "Special Industry Machinery",
+      "price": 40,
+      "price_as_of": "2025-09-15",
+      "price_source": "stooq",
+      "market_cap": 4000000000,
+      "pe_3y_avg": 11.764705882352942,
+      "pb": 0.8,
+      "graham_number": 61.84658438426491,
+      "margin_of_safety": 0.5461646096066226,
+      "current_ratio": 3,
+      "ltd_to_working_capital": 0.75,
+      "ltd_to_equity": 0.3,
+      "eps_positive_years": 10,
+      "dividend_years": 10,
+      "eps_growth_10y_pct": 61.904761904761884,
+      "criteria": [
+        {
+          "id": "graham.1.size",
+          "status": "pass",
+          "value": 4000000000,
+          "target": "\u003e= $300M market cap",
+          "tag": "dei:EntityCommonStockSharesOutstanding",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.2.current_ratio",
+          "status": "pass",
+          "value": 3,
+          "target": "\u003e= 2.0",
+          "tag": "AssetsCurrent",
+          "accn": [
+            "0000000000-2024-000001",
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.2b.debt",
+          "status": "pass",
+          "value": 0.75,
+          "target": "long-term debt \u003c= working capital",
+          "tag": "LongTermDebtNoncurrent",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.3.earnings_stability",
+          "status": "pass",
+          "value": 10,
+          "target": "EPS \u003e 0 in each of 10 years (10 of 10)",
+          "tag": "EarningsPerShareBasic",
+          "accn": [
+            "0000000000-2015-000001",
+            "0000000000-2016-000001",
+            "0000000000-2017-000001",
+            "0000000000-2018-000001",
+            "0000000000-2019-000001",
+            "0000000000-2020-000001",
+            "0000000000-2021-000001",
+            "0000000000-2022-000001",
+            "0000000000-2023-000001",
+            "0000000000-2024-000001"
+          ]
+        },
+        {
+          "id": "graham.4.dividends",
+          "status": "pass",
+          "value": 10,
+          "target": "a dividend in each of 10 years (10 of 10)",
+          "tag": "CommonStockDividendsPerShareDeclared"
+        },
+        {
+          "id": "graham.5.eps_growth",
+          "status": "pass",
+          "value": 61.904761904761884,
+          "target": "\u003e= +33% over 10 years (3-year averages)",
+          "tag": "EarningsPerShareBasic"
+        },
+        {
+          "id": "graham.6.pe",
+          "status": "pass",
+          "value": 11.764705882352942,
+          "target": "price / avg EPS of 3 years \u003c= 15.0",
+          "tag": "EarningsPerShareBasic"
+        },
+        {
+          "id": "graham.7.price_to_book",
+          "status": "pass",
+          "value": 0.8,
+          "target": "P/B \u003c= 1.5 or P/E * P/B \u003c= 22.5",
+          "tag": "StockholdersEquity",
+          "accn": [
+            "0000000000-2024-000001"
+          ]
+        }
+      ]
+    }
+  ],
+  "incomplete": [],
+  "incomplete_total": 0,
+  "diff": {
+    "new": [],
+    "dropped": []
+  },
+  "data_quality": {
+    "sec_requests": 0,
+    "sec_429": 0,
+    "sec_retries": 0,
+    "cache_hits": 0,
+    "price_requests": 0,
+    "price_missing": 0,
+    "facts_missing": 0,
+    "duration_ms": 0
+  }
+}
